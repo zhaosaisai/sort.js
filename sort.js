@@ -1,28 +1,29 @@
-;(function(global, factory) {
-	// ¼æÈİamdºÍcmdµÄĞ´·¨
-	// »ù±¾µÄĞÂÊ½ÊÇ cmd ? cmd : amd ? amd : global || window
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : 
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.PAS = factory());
-})(this, (function(){
-	// ÅĞ¶ÏÊÇ·ñÊı×é
+;
+(function (global, factory) {
+	// å…¼å®¹amdå’Œcmdçš„å†™æ³•
+	// åŸºæœ¬çš„æ–°å¼æ˜¯ cmd ? cmd : amd ? amd : global || window
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+		typeof define === 'function' && define.amd ? define(factory) :
+		(global.PAS = factory());
+})(this, (function () {
+	// åˆ¤æ–­æ˜¯å¦æ•°ç»„
 	function isArray(arr) {
-		return typeof Array.isArray === 'function' ? 
-			          Array.isArray(arr) : 
-					  Object.prototype.toString.call(arr) === '[object Array]';
+		return typeof Array.isArray === 'function' ?
+			Array.isArray(arr) :
+			Object.prototype.toString.call(arr) === '[object Array]';
 	}
-	
-	// ½»»»Á½¸öÔªËØ
+
+	// äº¤æ¢ä¸¤ä¸ªå…ƒç´ 
 	function swap(v1, v2, context) {
 		[context[v1], context[v2]] = [context[v2], context[v1]];
 		return void 0;
 	}
-	
-	// Ã°ÅİÅÅĞò
+
+	// å†’æ³¡æ’åº
 	function bubble(arr) {
 		let len = arr.length;
-		for(let i = 0; i < len; i++){
-			for(let j = 0; j < len - 1 - i; j++){
+		for (let i = 0; i < len; i++) {
+			for (let j = 0; j < len - 1 - i; j++) {
 				if (arr[j] > arr[j + 1]) {
 					swap(j, j + 1, arr)
 				}
@@ -30,43 +31,43 @@
 		}
 		return arr;
 	}
-	
-	// ²åÈëÅÅĞò
+
+	// æ’å…¥æ’åº
 	function insert(arr) {
 		let len = arr.length;
-		let pIndex, current;  // Ç°Ò»¸öÔªËØµÄË÷Òı£¬µ±Ç°ÔªËØµÄÖµ
-		for(let i = 1; i < len; i++){
+		let pIndex, current; // å‰ä¸€ä¸ªå…ƒç´ çš„ç´¢å¼•ï¼Œå½“å‰å…ƒç´ çš„å€¼
+		for (let i = 1; i < len; i++) {
 			pIndex = i - 1;
 			current = arr[i];
-			
-			// ÒÀ´Î°Ñµ±Ç°ÔªËØºÍÇ°ÃæµÄÔªËØ½øĞĞ±È½Ï
-			while(pIndex >= 0 && arr[pIndex] > current) {
-				// ±Èµ±Ç°µÄÔªËØ´ó£¬ÏòºóÒÆÒ»Î»
+
+			// ä¾æ¬¡æŠŠå½“å‰å…ƒç´ å’Œå‰é¢çš„å…ƒç´ è¿›è¡Œæ¯”è¾ƒ
+			while (pIndex >= 0 && arr[pIndex] > current) {
+				// æ¯”å½“å‰çš„å…ƒç´ å¤§ï¼Œå‘åç§»ä¸€ä½
 				arr[pIndex + 1] = arr[pIndex];
 				pIndex--;
 			}
-			// ²åÈëµ±Ç°ÔªËØµ½ºÏÊÊµÄÎ»ÖÃ
+			// æ’å…¥å½“å‰å…ƒç´ åˆ°åˆé€‚çš„ä½ç½®
 			arr[pIndex + 1] = current;
 		}
 		return arr;
 	}
-	
-	// ¿ìËÙÅÅĞò -- Õâ¸ö·½·¨²»¸Ä±äÔ­Êı×é
+
+	// å¿«é€Ÿæ’åº -- è¿™ä¸ªæ–¹æ³•ä¸æ”¹å˜åŸæ•°ç»„
 	function quick(arr) {
 		let len = arr.length;
-		
-		if(len < 2) {
+
+		if (len < 2) {
 			return arr;
 		}
-		
-		let middleIndex = Math.floor(len / 2); // ÖĞ¼äÔªËØµÄË÷ÒıÖµ
-		let baseValue = arr.splice(middleIndex, 1); // »ù×¼Öµ
-		 
-		let left = [];  // ±£´æĞ¡ÓÚ»ù×¼ÖµÔªËØ
-		let right = []; // ±£´æ´óÓÚ»òµÈÓÚ»ù×¼ÖµÔªËØ
-		
-		for(let i = 0; i < arr.length; i++) {
-			if(arr[i] < baseValue) {
+
+		let middleIndex = Math.floor(len / 2); // ä¸­é—´å…ƒç´ çš„ç´¢å¼•å€¼
+		let baseValue = arr.splice(middleIndex, 1); // åŸºå‡†å€¼
+
+		let left = []; // ä¿å­˜å°äºåŸºå‡†å€¼å…ƒç´ 
+		let right = []; // ä¿å­˜å¤§äºæˆ–ç­‰äºåŸºå‡†å€¼å…ƒç´ 
+
+		for (let i = 0; i < arr.length; i++) {
+			if (arr[i] < baseValue) {
 				left.push(arr[i]);
 			} else {
 				right.push(arr[i]);
@@ -74,252 +75,252 @@
 		}
 		return quick(left).concat(baseValue, quick(right));
 	}
-	
-	// Ñ¡ÔñÅÅĞò
+
+	// é€‰æ‹©æ’åº
 	function selection(arr) {
 		let len = arr.length;
-		let minIndex = 0; // ÓÃÓÚ±£´æ×îĞ¡ÖµµÄË÷Òı
-		
-		for(let i = 0; i < len - 1; i++) {
+		let minIndex = 0; // ç”¨äºä¿å­˜æœ€å°å€¼çš„ç´¢å¼•
+
+		for (let i = 0; i < len - 1; i++) {
 			minIndex = i;
-			// ±éÀúºóÃæµÄÔªËØºÍµ±Ç°ÈÏÎªµÄ×îĞ¡Öµ½øĞĞ±È½Ï
-			for(let j = i + 1; j < len; j++) {
-				if(arr[minIndex] > arr[j]){
-					// ±ÈÈÏÎªµÄ×îĞ¡ÖµĞ¡ ½»»»Ë÷Òı
+			// éå†åé¢çš„å…ƒç´ å’Œå½“å‰è®¤ä¸ºçš„æœ€å°å€¼è¿›è¡Œæ¯”è¾ƒ
+			for (let j = i + 1; j < len; j++) {
+				if (arr[minIndex] > arr[j]) {
+					// æ¯”è®¤ä¸ºçš„æœ€å°å€¼å° äº¤æ¢ç´¢å¼•
 					minIndex = j;
 				}
 			}
-			// ÕÒµ½×îĞ¡ÖµºÍµ±Ç°Öµ½»»»
-			if(minIndex !== i) {
+			// æ‰¾åˆ°æœ€å°å€¼å’Œå½“å‰å€¼äº¤æ¢
+			if (minIndex !== i) {
 				swap(minIndex, i, arr);
 			}
 		}
 		return arr;
 	}
-	
-	// ¹é²¢ÅÅĞò
+
+	// å½’å¹¶æ’åº
 	function merge(arr) {
 		let len = arr.length;
-		if(len < 2) {
+		if (len < 2) {
 			return arr;
 		}
-		let middleIndex = Math.floor(len / 2); // »ñÈ¡ÖĞ¼äÔªËØµÄË÷Òı
-		let left = arr.slice(0, middleIndex);  // »ñÈ¡×ó°ë²¿·ÖµÄÔªËØ
-		let right = arr.slice(middleIndex);    // »ñÈ¡ÓÒ°ë²¿·ÖµÄÔªËØ
-		
-		let merges = function(left, right) {
-			// ±£´æ½á¹ûµÄÊı×é
+		let middleIndex = Math.floor(len / 2); // è·å–ä¸­é—´å…ƒç´ çš„ç´¢å¼•
+		let left = arr.slice(0, middleIndex); // è·å–å·¦åŠéƒ¨åˆ†çš„å…ƒç´ 
+		let right = arr.slice(middleIndex); // è·å–å³åŠéƒ¨åˆ†çš„å…ƒç´ 
+
+		let merges = function (left, right) {
+			// ä¿å­˜ç»“æœçš„æ•°ç»„
 			let result = [];
-			
-			while(left.length && right.length) {
-				if(left[0] < right[0]) {
+
+			while (left.length && right.length) {
+				if (left[0] < right[0]) {
 					result.push(left.shift())
 				} else {
 					result.push(right.shift())
 				}
 			}
-			
-			// Èç¹û×ó°ë±ß»¹ÓĞÔªËØ
-			while(left.length) {
+
+			// å¦‚æœå·¦åŠè¾¹è¿˜æœ‰å…ƒç´ 
+			while (left.length) {
 				result.push(left.shift());
 			}
-			
-			// Èç¹ûÓÒ°ë±ß»¹ÓĞÔªËØ
-			while(right.length){
+
+			// å¦‚æœå³åŠè¾¹è¿˜æœ‰å…ƒç´ 
+			while (right.length) {
 				result.push(right.shift());
 			}
-			
+
 			return result;
 		}
-		
+
 		return merges(merge(left), merge(right));
 	}
-	
-	// Ï£¶ûÅÅĞò
+
+	// å¸Œå°”æ’åº
 	function shell(arr) {
 		let len = arr.length,
 			temp,
 			gap = 1;
-    
-		while(gap < len / 3) {
+
+		while (gap < len / 3) {
 			gap = gap * 3 + 1;
 		}
 
-		for(gap; gap > 0; gap = Math.floor(gap / 3)){
-			for(let i = gap; i < len; i++){
+		for (gap; gap > 0; gap = Math.floor(gap / 3)) {
+			for (let i = gap; i < len; i++) {
 				temp = arr[i];
-				for(var j = i - gap; j >= 0 && arr[j] > temp; j-=gap){
+				for (var j = i - gap; j >= 0 && arr[j] > temp; j -= gap) {
 					arr[j + gap] = arr[j];
 				}
 				arr[j + gap] = temp;
 			}
 		}
-		return arr;		
+		return arr;
 	}
-	
-	// ¶ÑÅÅĞò
+
+	// å †æ’åº
 	function heap(arr) {
 		let len = arr.length;
-		
-		let heapify = function(
-				arr  // ´ıÅÅĞòµÄÊı×é
-				, x  // ÔªËØµÄÏÂ±ê
-				, len // Êı×éµÄ³¤¶È
-				) {
+
+		let heapify = function (
+			arr // å¾…æ’åºçš„æ•°ç»„
+			, x // å…ƒç´ çš„ä¸‹æ ‡
+			, len // æ•°ç»„çš„é•¿åº¦
+		) {
 			let l = 2 * x + 1;
 			let r = 2 * x + 2;
 			let largest = x;
-			
-			if(l < len && arr[l] > arr[largest]) {
+
+			if (l < len && arr[l] > arr[largest]) {
 				largest = l;
 			}
-			
-			if(r < len && arr[r] > arr[largest]) {
+
+			if (r < len && arr[r] > arr[largest]) {
 				largest = r;
 			}
-			
-			if(largest !== x) {
+
+			if (largest !== x) {
 				swap(x, largest, arr);
 				heapify(arr, largest, len);
 			}
 		}
-		
-	    for(let i = Math.floor(len / 2); i >= 0; i--){
+
+		for (let i = Math.floor(len / 2); i >= 0; i--) {
 			heapify(arr, i, len);
 		}
-		
-		for(let i = len - 1; i >= 1; i--) {
+
+		for (let i = len - 1; i >= 1; i--) {
 			swap(0, i, arr);
 			heapify(arr, 0, --len);
 		}
 		return arr;
 	}
-	
-	// »ùÊıÅÅĞò
+
+	// åŸºæ•°æ’åº
 	function radix(arr) {
 		const SIZE = 10;
 		let len = arr.length;
-		let buckets = []; 
-		let max = Math.max.apply(null, arr);  // Êı×éÖĞµÄ×î´óÖµ
-		let maxLength = String(max).length;   // ×î´óÊı×ÖµÄ³¤¶È
-		
-		// ½øĞĞÑ­»·½«Í°ÖĞµÄÊı×éÌî³ä³ÉÊı×é
-		for(let i = 0; i < SIZE; i++) {
+		let buckets = [];
+		let max = Math.max.apply(null, arr); // æ•°ç»„ä¸­çš„æœ€å¤§å€¼
+		let maxLength = String(max).length; // æœ€å¤§æ•°å­—çš„é•¿åº¦
+
+		// è¿›è¡Œå¾ªç¯å°†æ¡¶ä¸­çš„æ•°ç»„å¡«å……æˆæ•°ç»„
+		for (let i = 0; i < SIZE; i++) {
 			buckets[i] = [];
 		}
-		
-		// ½øĞĞÑ­»·--¶ÔÊı¾İ½øĞĞ²Ù×÷--·ÅÍ°µÄĞĞÎª
-		for(let i = 0; i < maxLength; i++) {
-			// µÚ¶şÂÖÑ­»·ÊÇ½«Êı¾İ°´ÕÕ¸öÎ»Êı½øĞĞ·ÖÀà
-			for(let j = 0; j < len; j++) {
+
+		// è¿›è¡Œå¾ªç¯--å¯¹æ•°æ®è¿›è¡Œæ“ä½œ--æ”¾æ¡¶çš„è¡Œä¸º
+		for (let i = 0; i < maxLength; i++) {
+			// ç¬¬äºŒè½®å¾ªç¯æ˜¯å°†æ•°æ®æŒ‰ç…§ä¸ªä½æ•°è¿›è¡Œåˆ†ç±»
+			for (let j = 0; j < len; j++) {
 				let value = String(arr[j]);
-				// ÅĞ¶Ï³¤¶È--½øĞĞ·ÖÀà
-				if(value.length >= i + 1){
-					let num = Number(value[value.length - 1 - i]); // ÒÀ´ÎµÄ´ÓÓÒµ½×ó»ñÈ¡¸÷¸öÊı×Ö
-					//·ÅÈë¶ÔÓ¦µÄÍ°ÖĞ
+				// åˆ¤æ–­é•¿åº¦--è¿›è¡Œåˆ†ç±»
+				if (value.length >= i + 1) {
+					let num = Number(value[value.length - 1 - i]); // ä¾æ¬¡çš„ä»å³åˆ°å·¦è·å–å„ä¸ªæ•°å­—
+					//æ”¾å…¥å¯¹åº”çš„æ¡¶ä¸­
 					buckets[num].push(arr[j]);
 				} else {
-					// ³¤¶È²»Âú×ãµÄÊ±ºò£¬¾Í·ÅÔÚµÚÒ»¸öÍ°ÖĞ
-				    buckets[0].push(arr[i]);
+					// é•¿åº¦ä¸æ»¡è¶³çš„æ—¶å€™ï¼Œå°±æ”¾åœ¨ç¬¬ä¸€ä¸ªæ¡¶ä¸­
+					buckets[0].push(arr[i]);
 				}
 			}
-			// ½«Ô­Êı×éÇå¿Õ
-			 arr.length = 0;
-			 
-			 //Õâ´ÎÑ­»·ÊÇÒÀ´ÎÈ¡³öÉÏÃæ·ÖÀàºÃµÄÊı×é´æ·Åµ½Ô­Êı×éÖĞ
-			 for(let j = 0; j < SIZE; j++) {
-				 // »ñÈ¡¸÷¸öÍ°µÄ³¤¶È
-				 let l = buckets[j].length;
-				 // Ñ­»·È¡³öÊı¾İ
-				 for(let k = 0; k < l; k++){
-					 arr.push(buckets[j][k]);
-				 }
-				 // ½«¶ÔÓ¦µÄÍ°Çå¿Õ£¬·½±ãÏÂ´Î´æ·ÅÊı¾İ
-				 buckets[j] = [];
-			 }
+			// å°†åŸæ•°ç»„æ¸…ç©º
+			arr.length = 0;
+
+			//è¿™æ¬¡å¾ªç¯æ˜¯ä¾æ¬¡å–å‡ºä¸Šé¢åˆ†ç±»å¥½çš„æ•°ç»„å­˜æ”¾åˆ°åŸæ•°ç»„ä¸­
+			for (let j = 0; j < SIZE; j++) {
+				// è·å–å„ä¸ªæ¡¶çš„é•¿åº¦
+				let l = buckets[j].length;
+				// å¾ªç¯å–å‡ºæ•°æ®
+				for (let k = 0; k < l; k++) {
+					arr.push(buckets[j][k]);
+				}
+				// å°†å¯¹åº”çš„æ¡¶æ¸…ç©ºï¼Œæ–¹ä¾¿ä¸‹æ¬¡å­˜æ”¾æ•°æ®
+				buckets[j] = [];
+			}
 		}
 		return arr;
 	}
-	
-	// Í°ÅÅĞò -- ²»¸Ä±äÔ­Êı×é
+
+	// æ¡¶æ’åº -- ä¸æ”¹å˜åŸæ•°ç»„
 	function bucket(arr, size = 5) {
 		let len = arr.length;
-		if(len < 2) {
+		if (len < 2) {
 			return arr;
 		}
-		
-		// »ñÈ¡×î´óÖµºÍ×îĞ¡Öµ
+
+		// è·å–æœ€å¤§å€¼å’Œæœ€å°å€¼
 		const max = Math.max.apply(null, arr);
 		const min = Math.min.apply(null, arr);
 
-		// ¼ÆËã³öÍ°µÄÊıÁ¿  sizeÊÇ½Ø¾à
+		// è®¡ç®—å‡ºæ¡¶çš„æ•°é‡  sizeæ˜¯æˆªè·
 		const bucketCount = Math.floor((max - min) / size) + 1;
-		// ¸ù¾İÍ°µÄ¸öÊı´´½¨Ö¸¶¨³¤¶ÈµÄÊı×é
+		// æ ¹æ®æ¡¶çš„ä¸ªæ•°åˆ›å»ºæŒ‡å®šé•¿åº¦çš„æ•°ç»„
 		const buckets = new Array(bucketCount);
-		// ½«Ã¿¸öÍ°Èûµ½´óÍ°ÀïÃæÈ¥
-		for(let i = 0; i < bucketCount; i++){
+		// å°†æ¯ä¸ªæ¡¶å¡åˆ°å¤§æ¡¶é‡Œé¢å»
+		for (let i = 0; i < bucketCount; i++) {
 			buckets[i] = [];
 		}
-		// ÀûÓÃÓ³Éäº¯Êı½«Êı¾İ·ÖÅäµ½¸÷¸öÍ°ÀïÃæÈ¥
-		for(let i = 0; i < arr.length; i++){
-			// ·êsize½ø1
+		// åˆ©ç”¨æ˜ å°„å‡½æ•°å°†æ•°æ®åˆ†é…åˆ°å„ä¸ªæ¡¶é‡Œé¢å»
+		for (let i = 0; i < arr.length; i++) {
+			// é€¢sizeè¿›1
 			let index = Math.floor((arr[i] - min) / size);
 			buckets[index].push(arr[i]);
 		}
-		//¶ÔÃ¿¸öÍ°ÖĞµÄÊı¾İ½øĞĞÅÅĞò--½èÖúÓÚ¿ìËÙÅÅĞòËã·¨
-		for(let i = 0; i < buckets.length; i++){
+		//å¯¹æ¯ä¸ªæ¡¶ä¸­çš„æ•°æ®è¿›è¡Œæ’åº--å€ŸåŠ©äºå¿«é€Ÿæ’åºç®—æ³•
+		for (let i = 0; i < buckets.length; i++) {
 			buckets[i] = quick(buckets[i]);
 		}
-		
-		// flattenÊı×é--ÓĞµã²»×ã¾ÍÊÇ»á½«Ô­Êı×éÖĞµÄString¸Ä±äÎªNumber
-		return buckets.join(',').split(',').filter(v => v !== '').map(Number);  
+
+		// flattenæ•°ç»„--æœ‰ç‚¹ä¸è¶³å°±æ˜¯ä¼šå°†åŸæ•°ç»„ä¸­çš„Stringæ”¹å˜ä¸ºNumber
+		return buckets.join(',').split(',').filter(v => v !== '').map(Number);
 	}
-	
-	// ¼ÆÊıÅÅĞò
+
+	// è®¡æ•°æ’åº
 	function count(arr) {
 		let index = 0;
 		let len = arr.length;
-		let min = Math.min.apply(null, arr); // ×îĞ¡Öµ
-		let max = Math.max.apply(null, arr); // ×î´óÖµ
-		let result = []; // ½á¹ûÊı×é
+		let min = Math.min.apply(null, arr); // æœ€å°å€¼
+		let max = Math.max.apply(null, arr); // æœ€å¤§å€¼
+		let result = []; // ç»“æœæ•°ç»„
 
-		// ÏòĞÂÊı×éÖĞÌî³ä0
-		for(let i = min; i <= max; i++) {
+		// å‘æ–°æ•°ç»„ä¸­å¡«å……0
+		for (let i = min; i <= max; i++) {
 			result[i] = 0;
 		}
-		// °Ñ¸÷¸öÊı×éÖĞ¶ÔÓ¦µÄÔªËØ¼ÆÊı¼ÓÒ»
-		for(let i = 0; i < len; i++) {
+		// æŠŠå„ä¸ªæ•°ç»„ä¸­å¯¹åº”çš„å…ƒç´ è®¡æ•°åŠ ä¸€
+		for (let i = 0; i < len; i++) {
 			result[arr[i]]++;
 		}
-		// °´ÕÕ¼ÆÊıµÄÔªËØ½øĞĞÅÅĞò
-		for(let i = min; i <= max; i++){
-			while(result[i]-- > 0){
+		// æŒ‰ç…§è®¡æ•°çš„å…ƒç´ è¿›è¡Œæ’åº
+		for (let i = min; i <= max; i++) {
+			while (result[i]-- > 0) {
 				arr[index++] = i;
 			}
 		}
 		return arr;
 	}
-	
+
 	const PAS = {};
-	
+
 	[
-	 bubble,
-	 insert,
-	 quick,
-	 selection,
-	 merge,
-	 shell,
-	 heap,
-	 radix,
-	 bucket,
-	 count
-	].forEach(function(func) {
+		bubble,
+		insert,
+		quick,
+		selection,
+		merge,
+		shell,
+		heap,
+		radix,
+		bucket,
+		count
+	].forEach(function (func) {
 		let name = func.name;
-		//Ôö¼Ó²ãÍâ°ü×°£¬ÅĞ¶Ï²ÎÊıÊÇ²»ÊÇÊı×é
+		//å¢åŠ å±‚å¤–åŒ…è£…ï¼Œåˆ¤æ–­å‚æ•°æ˜¯ä¸æ˜¯æ•°ç»„
 		Object.defineProperty(PAS, name, {
-			get: function(){
+			get: function () {
 				return function (args) {
-					if(!isArray(args)) {
+					if (!isArray(args)) {
 						throw new Error('the arguments of PAS.' + name + ' must be Array');
 					}
 					return func.call(null, args);
@@ -327,18 +328,18 @@
 			},
 			configurable: true
 		})
-		
-		// ÔÚÊı×éµÄÔ­ĞÍÉÏÌí¼Ó·½·¨
+
+		// åœ¨æ•°ç»„çš„åŸå‹ä¸Šæ·»åŠ æ–¹æ³•
 		Object.defineProperty(Array.prototype, name, {
 			get: function () {
-				    var vm = this;
-					return function() {
-						return func.call(vm, vm);
-					}
-				},
+				var vm = this;
+				return function () {
+					return func.call(vm, vm);
+				}
+			},
 			configurable: true
 		})
 	})
-	
+
 	return PAS;
 }))
